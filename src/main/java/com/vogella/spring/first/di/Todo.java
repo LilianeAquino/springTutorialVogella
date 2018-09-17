@@ -2,6 +2,7 @@ package com.vogella.spring.first.di;
 
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,6 +11,7 @@ public class Todo implements ITodo {
 	private String summary;
 	private boolean done;
 	private Date dueDate;
+	private String description;
 	
 	public Todo() {
 		this(-1);
@@ -20,7 +22,7 @@ public class Todo implements ITodo {
 	}
 	
 	@Autowired
-	public Todo(long i, String summary) {
+	public Todo(long i, @Qualifier("summary")String summary) {
 		this.id = i;
 		this.summary = summary;
 	}
@@ -40,6 +42,18 @@ public class Todo implements ITodo {
 		this.summary = summary;
 
 	}
+	
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Autowired
+    @Override
+    @Qualifier("description")
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
 	@Override
 	public boolean isDone() {
@@ -87,7 +101,7 @@ public class Todo implements ITodo {
 	
 	@Override
 	public String toString() {
-		return 	"Todo[id= "+id+", summary= "+summary+"]";
+		return "Todo [id=" + id + ", summary=" + summary + ", description=" + description + "]";
 	}
 	
 
@@ -97,6 +111,7 @@ public class Todo implements ITodo {
 		Todo todo = new Todo(id, summary);
 		todo.setDone(this.isDone());
 		todo.setDueDate(this.getDueDate());
+		todo.setDescription(getDescription());
 		return todo;
 	}
 }

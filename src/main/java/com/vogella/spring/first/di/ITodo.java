@@ -11,6 +11,9 @@ public interface ITodo {
 	boolean isDone();
 	void setDone(boolean isDone);
 	
+	String getDescription();
+	void setDescription(String description);
+	
 	Date getDueDate();
 	void setDueDate(Date dueDate);
 	
